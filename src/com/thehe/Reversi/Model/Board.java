@@ -50,13 +50,13 @@ public class Board {
 				// important to clear to reduce redundant code
 				surroundingPieces.clear();
 			
-//				if (board[row][col] == Piece.WHITE)	{
-//					System.out.println("CURRENT ROW: " + row + "| CURRENT COL: " + col);
-//					getSurroundingPieces(row, col, playerOne.getPiece());
-//					availableMoves.forEach(array -> System.out.println(Arrays.toString(array)));
-//				}
+				if (board[row][col] == Piece.WHITE)	{
+					System.out.println("CURRENT ROW: " + row + "| CURRENT COL: " + col);
+					getSurroundingPieces(row, col, playerOne.getPiece());
+					availableMoves.forEach(array -> System.out.println(Arrays.toString(array)));
+				}
 
-				getSurroundingPieces(row, col, playerOne.getPiece());
+				//getSurroundingPieces(row, col, playerOne.getPiece());
 			}
 
 		}
@@ -65,8 +65,16 @@ public class Board {
 		
 		//surroundingPieces.forEach(array -> System.out.println(Arrays.toString(array)));
 		//availableMoves.forEach(array -> System.out.println(Arrays.toString(array)));
+
+		//testMarkAvailableSpots();
 		
-		
+
+	}
+	
+	private void testMarkAvailableSpots() {
+		for (int[] marked : availableMoves) {
+			board[marked[0]][marked[1]] = Piece.WHITE;
+		}
 	}
 	
 	private void initBoard() {
