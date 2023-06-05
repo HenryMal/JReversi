@@ -1,0 +1,30 @@
+model:
+
+it is comprised of doing logic with the pieces and players.
+
+the board: responsible for the logic.
+
+will hold the number of pieces for player 1 and 2.
+will check the available moves on the board.
+will check who won.
+responsible for flipping colors.
+
+TODO: figure out what to do with pieces and players.
+
+view:
+
+the board: a 8x8 uncheckered board
+the pieces: black and white pieces.
+
+put all of that shit in a border pane. 
+
+display player 1 stats on top left
+display player 2 stats on top right
+
+have indicators for each players to indicate where they can
+place pieces down. (color of the players) (have it blink?)
+
+after game ends, show a panel of who won at the end.
+thats all!
+
+have an AI mode that will play (perhaps)
