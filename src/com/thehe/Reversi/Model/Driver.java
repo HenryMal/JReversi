@@ -1,12 +1,13 @@
 package com.thehe.Reversi.Model;
 
+
 public class Driver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		long lastTime = System.nanoTime();
 		
-		Board board = new Board();
+		ReversiModel board = new ReversiModel();
 		
 		System.out.println(board.toString());
 		
@@ -14,7 +15,7 @@ public class Driver {
 		
 		System.out.println((currentTime - lastTime) / 1000000000.0);
 
-
+		
 	}
 
 }

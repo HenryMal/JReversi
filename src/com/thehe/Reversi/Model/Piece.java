@@ -17,4 +17,8 @@ public enum Piece {
 	public String toString(Piece givenValue) {
 		return (givenValue == WHITE) ? " 0 " : " O ";
 	}
+	
+	public static Piece flipPiece(Piece givenValue) {
+		return (givenValue == WHITE) ? BLACK : WHITE;
+	}
 }
