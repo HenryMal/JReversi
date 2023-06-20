@@ -1,20 +1,19 @@
-package com.thehe.Reversi.View;
+package com.thehe.Reversi.View.components;
 
 import com.thehe.Reversi.Model.Piece;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 public class BoardView extends GridPane {
 	
 	private Spot[][] board;
 	
-	public BoardView() {
+	public BoardView(int givenBoardSize) {
 		
-		board = new Spot[8][8];
+		board = new Spot[givenBoardSize][givenBoardSize];
 		
-		for (int row = 0; row < 8; row++) {
-			for (int col = 0; col < 8; col++) {
+		for (int row = 0; row < givenBoardSize; row++) {
+			for (int col = 0; col < givenBoardSize; col++) {
 				board[row][col] = new Spot();
 			}
 			

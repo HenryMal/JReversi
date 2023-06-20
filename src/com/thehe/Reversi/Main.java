@@ -1,9 +1,9 @@
 package com.thehe.Reversi;
 
 import com.thehe.Reversi.Presenter.Presenter;
-import com.thehe.Reversi.View.BoardView;
-import com.thehe.Reversi.View.PieceView;
-import com.thehe.Reversi.View.Spot;
+import com.thehe.Reversi.View.components.BoardView;
+import com.thehe.Reversi.View.components.PieceView;
+import com.thehe.Reversi.View.components.Spot;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,10 +30,8 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(pane);
 		
-
-		System.out.println("123");
 		stage.setScene(scene);
-		stage.setTitle("test");
+		stage.setTitle("JReversi");
 		stage.setResizable(false);
 		stage.show();
 		

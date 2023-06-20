@@ -1,4 +1,4 @@
-package com.thehe.Reversi.View;
+package com.thehe.Reversi.View.components;
 
 import javafx.scene.shape.Rectangle;
 
@@ -22,7 +22,6 @@ public class Spot extends StackPane {
 		
 		getChildren().add(background);
 
-		
 	}
 	
 	public void setPiece(Piece givenPiece) {

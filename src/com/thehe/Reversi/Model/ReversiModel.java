@@ -1,7 +1,6 @@
 package com.thehe.Reversi.Model;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -11,12 +10,12 @@ public class ReversiModel {
 
 	private final static int[][] DIRECTIONS = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
 
-	private final static int BOARD_SIZE = 8;
+	private final static int BOARD_SIZE = 7;
 	private Piece[][] board;
 	
 	// getters for these.
 	private int playerOneScore;
-	private int playerTwoSc0re;
+	private int playerTwoScore;
 	
 	private Player playerOne;
 	private Player playerTwo;
@@ -25,6 +24,7 @@ public class ReversiModel {
 	
 	// we need getters for these.
 	private Set<int[]> availableMoves = new TreeSet<int[]>(Arrays::compare);
+	private List<int[]> validFlippedPieces = new LinkedList<int[]>();
 	private List<int[]> piecesToBeFlipped = new LinkedList<int[]>();
 	
 	public ReversiModel() {
@@ -35,15 +35,27 @@ public class ReversiModel {
 		playerTwo = new Player(Piece.BLACK, false);
 		
 		initBoard();
-		
+		calculateScores();
 		getPlayerAllAvailableMoves(playerOne);
-		
-		//availableMoves.forEach(array -> System.out.println(Arrays.toString(array)));
 		
 	}
 
 	
 	private void initBoard() {
+	
+		for (int row = 0; row < BOARD_SIZE; row++) {
+			
+			for (int col = 0; col < BOARD_SIZE; col++) {
+	
+				if (row == 0 || col == 0 || row == BOARD_SIZE - 1 || col == BOARD_SIZE - 1)	{
+
+					board[row][col] = Piece.WHITE;
+
+				}
+
+			}
+
+		}
 		
 		board[3][3] = Piece.WHITE;
 		board[4][4] = Piece.WHITE;
@@ -108,7 +120,6 @@ public class ReversiModel {
 			Piece playerPiece,
 			boolean shouldNotFlip
 			) {
-		
 
 		surroundingPieces.forEach(array -> {
 
@@ -128,9 +139,12 @@ public class ReversiModel {
 			
 			else {
 				traverseForFlippingPieces(currentIndex, direction, playerPiece);
+
 			}			
 			
 		});
+		
+
 		
 	}
 
@@ -149,24 +163,24 @@ public class ReversiModel {
 	}
 
 	private void traverseForFlippingPieces(int[] currentIndex, int[] direction, Piece playerPiece) { 
-		
-		piecesToBeFlipped.clear();
+
+		validFlippedPieces.clear();
 		
 		while(keepCheckingSpots(currentIndex, playerPiece)) {
 			
-			piecesToBeFlipped.add(new int[] { currentIndex[0], currentIndex[1] });
+			validFlippedPieces.add(new int[] { currentIndex[0], currentIndex[1] });
 
 			currentIndex[0] += direction[0];
 			currentIndex[1] += direction[1];
 			
 			if (isValidEmptySpot(currentIndex, playerPiece)) {
-				piecesToBeFlipped.clear();
+				validFlippedPieces.clear();
 			}
 			
 		}
 		
 		if (isSamePiece(currentIndex, playerPiece)) {
-			flipPieces(currentIndex, playerPiece);
+			addToBeFlippedList();
 		}
 
 	}
@@ -209,14 +223,24 @@ public class ReversiModel {
 				
 	}
 	
-	private void flipPieces(int[] givenCurrentIndex, Piece givenPlayerPiece) {
+	private void addToBeFlippedList() {
+		
+		validFlippedPieces.forEach(coords -> {
+			
+			piecesToBeFlipped.add(coords);
+			
+		});
+			
+	}
+	
+	private void flipPieces() {
 		
 		piecesToBeFlipped.forEach(coords -> {
 			
 			board[coords[0]][coords[1]] = Piece.flipPiece(board[coords[0]][coords[1]]);
 			
 		});
-			
+		
 	}
 	
 	private void getPlayerAllAvailableMoves(Player givenPlayer) {
@@ -262,15 +286,49 @@ public class ReversiModel {
 		}
 	}
 	
+	private void resetPlayerMoves(Player givenPlayer, Player givenOtherPlayer) {
+		availableMoves.clear();
+		getPlayersMoves(givenPlayer, givenOtherPlayer);
+	}
+	
+	public void playerPass(Player givenPlayer, Player givenOtherPlayer) {
+		resetPlayerTurns(givenPlayer, givenOtherPlayer);
+		resetPlayerMoves(givenPlayer, givenOtherPlayer);
+	}
+	
+	private void calculateScores() {
+		
+		playerOneScore = 0;
+		playerTwoScore = 0;
+		
+		for (int row = 0; row < BOARD_SIZE; row++) {
+			
+			for (int col = 0; col < BOARD_SIZE; col++) {
+	
+				if (board[row][col] == Piece.WHITE)	{
+					playerOneScore += 1;
+				} 
+				
+				if (board[row][col] == Piece.BLACK) {
+					playerTwoScore += 1;
+				}
+
+			}
+
+		}
+		
+	}
+	
 	// there is still some edge cases, like when a player cant make a move and must pass.
 	public void makeMove(int[] spotCoords, Player givenPlayer, Player givenOtherPlayer) {
 		
+		piecesToBeFlipped.clear();
 		makePlayerTurn(spotCoords, givenPlayer, givenOtherPlayer);
 		resetPlayerTurns(givenPlayer, givenOtherPlayer);
-		
-		availableMoves.clear();
-		
-		getPlayersMoves(givenPlayer, givenOtherPlayer);
+		flipPieces();
+		resetPlayerMoves(givenPlayer, givenOtherPlayer);
+		calculateScores();
+		System.out.println("PLAYER 1:" + playerOneScore + " | PLAYER 2: " + playerTwoScore);
 		
 	}
 	
@@ -297,6 +355,15 @@ public class ReversiModel {
 	public Player getPlayerTwo() {
 		return playerTwo;
 	}
+	
+	public int getPlayerOneScore() {
+		return playerOneScore;
+	}
+	
+	public int getPlayerTwoScore() {
+		return playerTwoScore;
+	}
+	
 	// 0 = WHITE
 	// O = BLACK
 	public String toString() {

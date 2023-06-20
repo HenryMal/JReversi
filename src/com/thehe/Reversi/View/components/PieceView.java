@@ -1,4 +1,4 @@
-package com.thehe.Reversi.View;
+package com.thehe.Reversi.View.components;
 
 import com.thehe.Reversi.Model.Piece;
 
@@ -20,19 +20,17 @@ public class PieceView extends Circle {
 		
 	}
 	
+	public void setScale(double givenSize) {
+		setScaleX(givenSize);
+		setScaleY(givenSize);
+	}
+	
 	public void setColor(Piece givenPiece) {
 		
 		pieceColor = Color.web(givenPiece.toString());
-		this.setFill(pieceColor);
+		setFill(pieceColor);
 
 	}
 	
-	public Color getColor() {
-		return pieceColor;
-	}
-	
-	public double getPieceSize() {
-		return pieceSize;
-	}
 	
 }
