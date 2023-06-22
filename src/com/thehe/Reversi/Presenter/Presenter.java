@@ -26,19 +26,33 @@ public class Presenter {
 		init();
 		/* TODO:
 		 * 
-		 * 1: handle finishing a game (DONE)
-		 * 2: when both players cant make a turn. (DONE)
-		 * 3: keep track of score. (DONE)
-		 *  
+		 *  1: make gui for keeping track of piece count
+		 *     (every time we make a move, we grab the scores and pass them to the views)
+		 *     
+		 *  2: when a player cant make a move, display PASS on the screen
+		 *     o (overlay that whatever player cannot make a move, and the other player
+		 *        can make as much as he wants so long as you cannot make a move)
+		 *     o (display this message once)
+		 *     o (if it has already been shown, just show WHO passed)
+		 *     
+		 *     
+		 *     
+		 *  3: perhaps game overlay when game is over and restart the game.
+		 *     o (port over code from 2048)
+		 *     
+		 *  4: forfeit buttons.
+		 *     o (whoever turn it is, when they click it, they instantly lose no matter what)
 		 *  
 		 *  TODO: 
-		 *  1: make gui for keeping track of piece count
-		 *  2: when a player cant make a move, display PASS on the screen
-		 *  3: perhaps game overlay when game is over and restart the game.
-		 *  4: forfeit buttons.
+		 *  
+		 *  refactor code. for example:
+		 *  
+		 *  have an animation handler class SPECIFICALLY for showing availableSpots
+		 *  have an animation handler class SPECIFICALLY for flipping pieces
+		 *  
+		 *  so on.
 		 *  
 		 */
-
 	}
 	
 	private void init() {
@@ -125,6 +139,7 @@ public class Presenter {
 			spawnPiece(rowIndex, colIndex);
 			
 			// needs refactoring, but yes it is DONE! (kinda hacky)
+			// display an overlay that you can make the move. 
 			if (reversiModel.getAvailableMovesSet().isEmpty()) {
 				
 				boolean pass = true; 

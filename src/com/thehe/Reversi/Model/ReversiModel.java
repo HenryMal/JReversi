@@ -10,7 +10,7 @@ public class ReversiModel {
 
 	private final static int[][] DIRECTIONS = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
 
-	private final static int BOARD_SIZE = 7;
+	private final static int BOARD_SIZE = 8;
 	private Piece[][] board;
 	
 	// getters for these.
@@ -43,20 +43,6 @@ public class ReversiModel {
 	
 	private void initBoard() {
 	
-		for (int row = 0; row < BOARD_SIZE; row++) {
-			
-			for (int col = 0; col < BOARD_SIZE; col++) {
-	
-				if (row == 0 || col == 0 || row == BOARD_SIZE - 1 || col == BOARD_SIZE - 1)	{
-
-					board[row][col] = Piece.WHITE;
-
-				}
-
-			}
-
-		}
-		
 		board[3][3] = Piece.WHITE;
 		board[4][4] = Piece.WHITE;
 		
