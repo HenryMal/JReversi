@@ -2,7 +2,7 @@ package com.thehe.Reversi.Presenter;
 
 import com.thehe.Reversi.Model.Piece;
 import com.thehe.Reversi.Model.ReversiModel;
-import com.thehe.Reversi.View.components.BoardView;
+import com.thehe.Reversi.View.Game;
 import com.thehe.Reversi.View.utils.AnimationHandler;
 
 import javafx.animation.Animation.Status;
@@ -13,52 +13,58 @@ import javafx.scene.layout.Pane;
 
 public class Presenter {
 	
+	private final static int FONT_SIZE = 24;
+	
 	private AnimationHandler animationHandler;
 	private ReversiModel reversiModel;
-	private BoardView reversiView;
+	private Game reversiView;
+	private boolean isGameOver = false;
 	
 	public Presenter() {
 		
 		this.reversiModel = new ReversiModel();
-		this.reversiView = new BoardView(reversiModel.getBoardSize());
+		reversiView = new Game(reversiModel.getBoardSize(), 
+				reversiModel.getPlayerOne(), 
+				reversiModel.getPlayerTwo(),
+				FONT_SIZE);
+		
 		animationHandler = new AnimationHandler();
 		
 		init();
-		/* TODO:
-		 * 
-		 *  1: make gui for keeping track of piece count
-		 *     (every time we make a move, we grab the scores and pass them to the views)
-		 *     
-		 *  2: when a player cant make a move, display PASS on the screen
-		 *     o (overlay that whatever player cannot make a move, and the other player
-		 *        can make as much as he wants so long as you cannot make a move)
-		 *     o (display this message once)
-		 *     o (if it has already been shown, just show WHO passed)
-		 *     
-		 *     
-		 *     
-		 *  3: perhaps game overlay when game is over and restart the game.
-		 *     o (port over code from 2048)
-		 *     
-		 *  4: forfeit buttons.
-		 *     o (whoever turn it is, when they click it, they instantly lose no matter what)
-		 *  
-		 *  TODO: 
-		 *  
-		 *  refactor code. for example:
-		 *  
-		 *  have an animation handler class SPECIFICALLY for showing availableSpots
-		 *  have an animation handler class SPECIFICALLY for flipping pieces
-		 *  
-		 *  so on.
-		 *  
-		 */
 	}
 	
 	private void init() {
 		bindSpots();
 		synchronize();
 		showAvailableSpots();
+		initializeForfeitButton();
+	}
+	
+	
+	private void initializeForfeitButton() {
+		reversiView.getForfeitButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+		        if(mouseEvent.getButton() == MouseButton.PRIMARY && !isGameOver) {
+		        	handleForfeit();
+		        	
+		        }
+			}
+		});
+	}
+	
+	private void initializeGameOverButton() {
+		reversiView.getResetGame().setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+		        if(mouseEvent.getButton() == MouseButton.PRIMARY) {
+		        	resetGame();
+		        }
+			}
+			
+		});
 	}
 	
 	private void bindSpots() {
@@ -127,41 +133,79 @@ public class Presenter {
 	
 	public void handleLeftClick(int rowIndex, int colIndex) {
 		
-		long lastTime = System.nanoTime();
-		
 		if (isClickable(rowIndex, colIndex)) {
 			
+			reversiView.setPassMessageNotVisible();	
 			resetIndicators();
-			
 			reversiModel.makeMove(new int[] {rowIndex, colIndex}, reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
-	
 			flipPieces();
 			spawnPiece(rowIndex, colIndex);
-			
-			// needs refactoring, but yes it is DONE! (kinda hacky)
-			// display an overlay that you can make the move. 
-			if (reversiModel.getAvailableMovesSet().isEmpty()) {
-				
-				boolean pass = true; 
-				System.out.println("pass");
-				reversiModel.playerPass(reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
-				
-				if (reversiModel.getAvailableMovesSet().isEmpty()) {
-					boolean gameover = true;
-					System.out.println("gameover!");
-
-				}
-				
-
-			}
-			
+			checkInvalidMoves();
+			displayScores();
+			displayTurn();
 			showAvailableSpots();
 
 		}
+	
+	}
+	
+	private void checkInvalidMoves() {
 		
-		long currentTime = System.nanoTime();
-		System.out.println((currentTime - lastTime) / 1000000000.0);	
+		if (reversiModel.getAvailableMovesSet().isEmpty()) {
+			
+			handlePass();
+			
+			if (reversiModel.getAvailableMovesSet().isEmpty()) {
 
+				handleGameOver();
+				
+			}
+			
+		}
+	}
+	
+	private void handlePass() {
+		reversiModel.playerPass(reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
+		reversiView.setPassMessageVisible();
+	}
+	
+	private void handleGameOver() {
+    	isGameOver = true;
+		reversiView.addGameOver();
+		setAppropiateText();
+		animationHandler.gameOverAnimation(reversiView.getGameOver());
+		initializeGameOverButton();
+		resetIndicators();
+	}
+	
+	private void setAppropiateText() {
+		if (reversiModel.getPlayerOne().getScore() == reversiModel.getPlayerTwo().getScore()) {
+			reversiView.setTieText();
+		}
+		
+		if (reversiModel.getPlayerOne().getScore() < reversiModel.getPlayerTwo().getScore()) {
+			reversiView.setWinnerText(reversiModel.getPlayerTwo().getPiece());
+		}
+		
+		if (reversiModel.getPlayerOne().getScore() > reversiModel.getPlayerTwo().getScore()) {
+			reversiView.setWinnerText(reversiModel.getPlayerOne().getPiece());
+
+		}
+	}
+	
+	private void displayTurn() {
+		if (reversiModel.getPlayerOne().getTurn()) {
+			reversiView.setText(reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
+		}
+		
+		else {
+			reversiView.setText(reversiModel.getPlayerTwo(), reversiModel.getPlayerOne());
+		}
+	}
+	
+	private void displayScores() {
+		reversiView.setPlayerOneScore(reversiModel.getPlayerOneScore());
+		reversiView.setPlayerTwoScore(reversiModel.getPlayerTwoScore());
 	}
 	
 	private boolean isClickable(int givenRowIndex, int givenColIndex) {
@@ -213,6 +257,51 @@ public class Presenter {
 			reversiView.getSpot(coords[0], coords[1]).removeIndicator();
 		});
 	}
+	
+	private void handleForfeit() {
+    	isGameOver = true;
+		reversiView.addGameOver();
+		if (reversiModel.getPlayerOne().getTurn()) {
+			reversiView.setWinnerText(reversiModel.getPlayerTwo().getPiece());
+		}
+		
+		else  {
+			reversiView.setWinnerText(reversiModel.getPlayerOne().getPiece());
+		}
+		animationHandler.gameOverAnimation(reversiView.getGameOver());
+		initializeGameOverButton();
+		resetIndicators();
+	}
+	
+	
+	private void resetGame() {
+		
+		resetIndicators();
+		removeAllPieces();
+		
+	    reversiModel = new ReversiModel();
+	    animationHandler = new AnimationHandler();
+	    
+	    reversiView.removeGameOver();
+	    reversiView.setPassMessageNotVisible();
+	    reversiView.setPlayerOneScore(reversiModel.getPlayerOneScore());
+	    reversiView.setPlayerTwoScore(reversiModel.getPlayerTwoScore());
+	    reversiView.setText(reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
+
+	    init();
+		isGameOver = false;
+		
+	}
+
+	
+	private void removeAllPieces() {
+	    for (int rowIndex = 0; rowIndex < reversiModel.getBoardSize(); ++rowIndex) {
+	        for (int colIndex = 0; colIndex < reversiModel.getBoardSize(); ++colIndex) {
+	            reversiView.getSpot(rowIndex, colIndex).removePiece();
+	        }
+	    }
+	}
+	
 	
 	public Pane getPane() {
 		return reversiView;

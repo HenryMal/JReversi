@@ -1,4 +1,4 @@
-package com.thehe.Reversi.View.components;
+package com.thehe.Reversi.View.BoardComponents;
 
 import javafx.scene.shape.Rectangle;
 
@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 
 public class Spot extends StackPane {
 	
+	private final static double SIZE = 60; 
+	
 	private Rectangle background;
 	private PieceView piece;
 	private AvailableMovesView availableMovesIndicator;
@@ -16,8 +18,8 @@ public class Spot extends StackPane {
 	
 	
 	public Spot() {
-		
-		background = new Rectangle(60, 60, color);
+
+		background = new Rectangle(SIZE, SIZE, color);
 		background.setStroke(Color.BLACK);
 		
 		getChildren().add(background);

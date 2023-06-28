@@ -22,15 +22,6 @@ public class Player {
 		score = givenScore;
 	}
 	
-	
-	// PLAYER WIN STATE
-	public boolean getWonGame() {
-		return wonGame;
-	}
-	public void setWonGame(boolean didWin) {
-		wonGame = didWin;
-	}
-	
 	// PLAYER'S TURN
 	public boolean getTurn() {
 		return turn;

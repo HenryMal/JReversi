@@ -13,16 +13,10 @@ public class ReversiModel {
 	private final static int BOARD_SIZE = 8;
 	private Piece[][] board;
 	
-	// getters for these.
-	private int playerOneScore;
-	private int playerTwoScore;
-	
 	private Player playerOne;
 	private Player playerTwo;
 	
 	private List<int[]> surroundingPieces = new LinkedList<int[]>();
-	
-	// we need getters for these.
 	private Set<int[]> availableMoves = new TreeSet<int[]>(Arrays::compare);
 	private List<int[]> validFlippedPieces = new LinkedList<int[]>();
 	private List<int[]> piecesToBeFlipped = new LinkedList<int[]>();
@@ -284,8 +278,8 @@ public class ReversiModel {
 	
 	private void calculateScores() {
 		
-		playerOneScore = 0;
-		playerTwoScore = 0;
+		int playerOneScore = 0;
+		int playerTwoScore = 0;
 		
 		for (int row = 0; row < BOARD_SIZE; row++) {
 			
@@ -303,9 +297,11 @@ public class ReversiModel {
 
 		}
 		
+		playerOne.setScore(playerOneScore);
+		playerTwo.setScore(playerTwoScore);
+		
 	}
 	
-	// there is still some edge cases, like when a player cant make a move and must pass.
 	public void makeMove(int[] spotCoords, Player givenPlayer, Player givenOtherPlayer) {
 		
 		piecesToBeFlipped.clear();
@@ -314,7 +310,6 @@ public class ReversiModel {
 		flipPieces();
 		resetPlayerMoves(givenPlayer, givenOtherPlayer);
 		calculateScores();
-		System.out.println("PLAYER 1:" + playerOneScore + " | PLAYER 2: " + playerTwoScore);
 		
 	}
 	
@@ -343,11 +338,11 @@ public class ReversiModel {
 	}
 	
 	public int getPlayerOneScore() {
-		return playerOneScore;
+		return playerOne.getScore();
 	}
 	
 	public int getPlayerTwoScore() {
-		return playerTwoScore;
+		return playerTwo.getScore();
 	}
 	
 	// 0 = WHITE

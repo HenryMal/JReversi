@@ -1,8 +1,9 @@
 package com.thehe.Reversi.View.utils;
 
 import com.thehe.Reversi.Model.Piece;
-import com.thehe.Reversi.View.components.AvailableMovesView;
-import com.thehe.Reversi.View.components.PieceView;
+import com.thehe.Reversi.View.BoardComponents.AvailableMovesView;
+import com.thehe.Reversi.View.BoardComponents.GameOverOverlay;
+import com.thehe.Reversi.View.BoardComponents.PieceView;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -17,6 +18,7 @@ public class AnimationHandler {
 	private ParallelTransition animateFlippedPieces;
 	private ParallelTransition animateIndicators;
 	private ScaleTransition spawnPiece;
+	private FadeTransition fadeGameOverOverlay;
 
 	
 	public AnimationHandler() {
@@ -68,6 +70,17 @@ public class AnimationHandler {
 		spawnPiece.setToX(1.0);
 		spawnPiece.setToY(1.0);
 		spawnPiece.setInterpolator(Interpolator.EASE_OUT);
+		
+	}
+	
+	public void gameOverAnimation(GameOverOverlay gameOver) {
+		
+		fadeGameOverOverlay = new FadeTransition(Duration.millis(2000), gameOver);
+		
+		fadeGameOverOverlay.setFromValue(0);
+		fadeGameOverOverlay.setToValue(1);
+		fadeGameOverOverlay.setInterpolator(Interpolator.EASE_BOTH);
+		fadeGameOverOverlay.play();
 		
 	}
 	

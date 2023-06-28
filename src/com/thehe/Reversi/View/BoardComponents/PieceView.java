@@ -1,4 +1,4 @@
-package com.thehe.Reversi.View.components;
+package com.thehe.Reversi.View.BoardComponents;
 
 import com.thehe.Reversi.Model.Piece;
 
