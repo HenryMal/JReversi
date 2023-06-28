@@ -9,4 +9,4 @@ i move on to more complex projects.
 
 ## TODOS:
 
-finish the board model
+heavy refactoring. other than that, the game is finished.

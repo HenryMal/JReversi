@@ -168,16 +168,7 @@ public class Presenter {
 		reversiModel.playerPass(reversiModel.getPlayerOne(), reversiModel.getPlayerTwo());
 		reversiView.setPassMessageVisible();
 	}
-	
-	private void handleGameOver() {
-    	isGameOver = true;
-		reversiView.addGameOver();
-		setAppropiateText();
-		animationHandler.gameOverAnimation(reversiView.getGameOver());
-		initializeGameOverButton();
-		resetIndicators();
-	}
-	
+
 	private void setAppropiateText() {
 		if (reversiModel.getPlayerOne().getScore() == reversiModel.getPlayerTwo().getScore()) {
 			reversiView.setTieText();
@@ -273,6 +264,14 @@ public class Presenter {
 		resetIndicators();
 	}
 	
+	private void handleGameOver() {
+    	isGameOver = true;
+		reversiView.addGameOver();
+		setAppropiateText();
+		animationHandler.gameOverAnimation(reversiView.getGameOver());
+		initializeGameOverButton();
+		resetIndicators();
+	}
 	
 	private void resetGame() {
 		
