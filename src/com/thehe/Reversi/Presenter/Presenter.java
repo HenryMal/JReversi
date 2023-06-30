@@ -173,7 +173,6 @@ public class Presenter {
 		if (reversiModel.getPlayerOne().getScore() == reversiModel.getPlayerTwo().getScore()) {
 			reversiView.setTieText();
 		}
-		
 		if (reversiModel.getPlayerOne().getScore() < reversiModel.getPlayerTwo().getScore()) {
 			reversiView.setWinnerText(reversiModel.getPlayerTwo().getPiece());
 		}
@@ -200,8 +199,7 @@ public class Presenter {
 	}
 	
 	private boolean isClickable(int givenRowIndex, int givenColIndex) {
-		return (reversiView.getSpot(givenRowIndex, givenColIndex).getPiece() == null && 
-				reversiModel.getAvailableMovesSet().contains(new int[] {givenRowIndex, givenColIndex}) && 
+		return (reversiModel.getAvailableMovesSet().contains(new int[] {givenRowIndex, givenColIndex}) && 
 				animationHandler.getFlippingAnimation().getStatus() != Status.RUNNING);
 	}
 	
