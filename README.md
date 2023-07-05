@@ -9,8 +9,7 @@ i move on to more complex projects.
 
 ## TODOS:
 
-heavy refactoring. other than that, the game is finished.
+to be honest, aside from refactoring this:
 
- -[] make abstract class for views
- -[] abstract down animation handler cuz its too bloated
- -[] look into the model and see what changes we can make
+I CONSIDER DIS SHIT TO BE A FUCCIN VICTORY.
+a small one but a victory. 

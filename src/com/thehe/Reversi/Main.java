@@ -20,6 +20,7 @@ public class Main extends Application {
 		
 		Pane pane = new Pane();
 		Presenter presenter = new Presenter();
+		
 		pane.getChildren().add(presenter.getPane());
 		
 		Scene scene = new Scene(pane);

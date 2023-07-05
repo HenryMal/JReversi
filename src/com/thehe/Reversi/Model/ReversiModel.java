@@ -345,8 +345,6 @@ public class ReversiModel {
 		return playerTwo.getScore();
 	}
 	
-	// 0 = WHITE
-	// O = BLACK
 	public String toString() {
 		
 		StringBuilder boardString = new StringBuilder();
