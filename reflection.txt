@@ -1,0 +1,50 @@
+
+model side:
+
+naming convention sucks ass
+questionable logic
+
+overall personal rating: 8/10
+
+comments: at least this was better than 2048. the logic took me several days to finish in short hour bursts, unlike where i spent literally thr WHOLE FUCCIN DAY for 2048 shit.
+tinhgs are seperated out at least, but the rage was unreal when it came down to flipping peices and finding valid spots. other than that, it felt good using lambdas tho.
+
+
+so:
+
+1: less time to develop logic.
+2: contain anger during logic errors.
+3: have better naming conventions. going back to the code a week later, it was hard to understand what the fuck was going on, even with abstracted down.
+4: i like the use of the java features.
+5: logic STILL works, but feels sloppy. but it still works, and works fast.
+
+view: 
+
+no use of OOP
+no abstract classes.
+it was annoying as shit to implement new things
+
+personal rating: 9/10
+
+comments: implementing the views were not at all bad. it was rather fun. but did rush things towards the end and raging hard.
+not because of how hard it was to implement, but just because it was tedious. especially adding a new feature, for a specific component, then
+you need to pass that component through its parents over and over and over again. however, the frontend did NO LOGIC, which is a large win in my book.
+
+1: use abstract classes for ease of adding new components and features.
+2: use interfaces for each panel so we can easily add features. instead of cancer going through each parent and adding classes.
+
+presenter:
+
+here we go.
+
+overly bloated.
+duplicate code (hacky shit)
+
+8/10
+
+overly bloated because of the animations. there is also some questionable logic, and you could tell
+that there are some hacks in the code. NOT PERFECT, but its decent and does its job. if it werent for the animation handlers, this class
+would have been SO MUCCHH smaller. so abstract down the animation handlers and make its own classes for them. its honestly really cancer
+to look through the code and see tgat over 60% of the code is literally animation shit. 
+
+
